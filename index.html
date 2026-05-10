@@ -1,507 +1,663 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Courses</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        /* Simple style for active tab */
-        .tab-active {
-            border-color: #3B82F6; /* blue-500 */
-            color: #3B82F6;
-            background-color: #EFF6FF; /* blue-50 */
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CourseVault</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #FAF8F4;
+      --cream2: #F3EFE7;
+      --cream3: #EAE4D8;
+      --sand: #D4C9B0;
+      --sand-dark: #B5A88A;
+      --ink: #1E1C18;
+      --ink2: #3D3A33;
+      --ink3: #6B6760;
+      --accent: #2D5F8A;
+      --accent-light: #EBF2FA;
+      --accent-mid: #4A7FB5;
+      --green: #2E6B4E;
+      --green-light: #E8F4EE;
+      --amber: #8A6020;
+      --amber-light: #FBF3E3;
+      --purple: #5B3FA6;
+      --purple-light: #F0ECFF;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+      --radius-xl: 28px;
+      --shadow-sm: 0 1px 3px rgba(30,28,24,0.06), 0 1px 2px rgba(30,28,24,0.04);
+      --shadow-md: 0 4px 12px rgba(30,28,24,0.08), 0 2px 4px rgba(30,28,24,0.04);
+      --shadow-lg: 0 8px 28px rgba(30,28,24,0.1), 0 2px 8px rgba(30,28,24,0.05);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    .site-header {
+      background: linear-gradient(160deg, #2D5F8A 0%, #1E3F5E 100%);
+      padding: 56px 24px 72px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .site-header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 600px 300px at 20% 50%, rgba(255,255,255,0.05) 0%, transparent 70%),
+        radial-gradient(ellipse 400px 400px at 80% 20%, rgba(255,255,255,0.04) 0%, transparent 60%);
+    }
+    .header-inner { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; }
+    .header-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 999px; padding: 5px 14px; font-size: 12px; font-weight: 500;
+      color: rgba(255,255,255,0.9); letter-spacing: 0.04em; text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .header-badge svg { width: 13px; height: 13px; opacity: 0.8; }
+    .site-header h1 {
+      font-family: 'Lora', serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 12px;
+    }
+    .site-header h1 span { color: #A8C9E8; }
+    .site-header p {
+      font-size: 16px; color: rgba(255,255,255,0.65);
+      font-weight: 300; line-height: 1.6;
+    }
+
+    /* Search bar */
+    .search-wrap {
+      margin: 28px auto 0;
+      max-width: 480px;
+      position: relative;
+    }
+    .search-wrap svg {
+      position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+      width: 18px; height: 18px; color: var(--ink3); pointer-events: none;
+    }
+    #search-input {
+      width: 100%;
+      padding: 14px 16px 14px 44px;
+      border-radius: var(--radius-xl);
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      background: #fff;
+      color: var(--ink);
+      box-shadow: var(--shadow-lg);
+      outline: none;
+      transition: box-shadow 0.2s;
+    }
+    #search-input::placeholder { color: var(--ink3); }
+    #search-input:focus { box-shadow: 0 0 0 3px rgba(74,127,181,0.3), var(--shadow-lg); }
+    #search-clear {
+      position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+      width: 22px; height: 22px; border-radius: 50%; background: var(--sand);
+      border: none; cursor: pointer; display: none; align-items: center; justify-content: center;
+      color: var(--ink2); font-size: 14px; line-height: 1;
+    }
+    #search-clear.show { display: flex; }
+
+    /* ── MAIN LAYOUT ── */
+    .page-body { max-width: 980px; margin: 0 auto; padding: 0 20px 80px; }
+
+    /* Floating card */
+    .nav-card {
+      background: #fff;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      margin-top: -36px;
+      padding: 6px;
+      display: flex;
+      gap: 4px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .tab-btn {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 14px 10px;
+      border: none;
+      border-radius: var(--radius-md);
+      background: transparent;
+      cursor: pointer;
+      transition: background 0.18s, transform 0.12s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .tab-btn:hover { background: var(--cream2); }
+    .tab-btn.active { background: var(--accent-light); }
+    .tab-btn:active { transform: scale(0.97); }
+    .tab-icon {
+      width: 38px; height: 38px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      transition: background 0.18s;
+    }
+    .tab-btn.active .tab-icon { background: var(--accent); }
+    .tab-btn:not(.active) .tab-icon { background: var(--cream2); }
+    .tab-btn.active .tab-icon svg { color: #fff; }
+    .tab-btn:not(.active) .tab-icon svg { color: var(--ink3); }
+    .tab-icon svg { width: 20px; height: 20px; }
+    .tab-label {
+      font-size: 11.5px;
+      font-weight: 500;
+      text-align: center;
+      line-height: 1.3;
+      letter-spacing: 0.01em;
+    }
+    .tab-btn.active .tab-label { color: var(--accent); }
+    .tab-btn:not(.active) .tab-label { color: var(--ink3); }
+    .tab-count {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 999px;
+    }
+    .tab-btn.active .tab-count { background: rgba(45,95,138,0.12); color: var(--accent); }
+    .tab-btn:not(.active) .tab-count { background: var(--cream3); color: var(--ink3); }
+
+    /* ── SEARCH RESULTS ── */
+    #search-results-section { display: none; margin-top: 24px; }
+    .results-label {
+      font-size: 13px; color: var(--ink3); margin-bottom: 12px; padding-left: 2px;
+    }
+    .results-label strong { color: var(--ink2); }
+
+    /* ── COURSE SECTION ── */
+    .course-section { display: none; margin-top: 24px; animation: fadeUp 0.3s ease both; }
+    .course-section.active { display: block; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-header {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 20px; padding: 0 2px;
+    }
+    .section-icon {
+      width: 44px; height: 44px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+      font-size: 20px;
+    }
+    .section-title {
+      font-family: 'Lora', serif;
+      font-size: 22px; font-weight: 600; color: var(--ink);
+      letter-spacing: -0.01em;
+    }
+    .section-sub { font-size: 13px; color: var(--ink3); margin-top: 2px; }
+
+    /* ── LECTURE CARDS ── */
+    .lectures-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .lecture-card {
+      background: #fff;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--cream3);
+      box-shadow: var(--shadow-sm);
+      padding: 11px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: box-shadow 0.18s, border-color 0.18s, transform 0.12s;
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+    }
+    .lecture-card:hover {
+      box-shadow: var(--shadow-md);
+      border-color: var(--sand);
+      transform: translateY(-1px);
+    }
+    .lec-num {
+      width: 32px; height: 32px;
+      border-radius: 7px;
+      background: var(--cream2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 600; color: var(--ink3);
+      flex-shrink: 0; transition: background 0.18s;
+      letter-spacing: 0.02em;
+    }
+    .lecture-card:hover .lec-num { background: var(--cream3); }
+    .lec-title {
+      flex: 1; min-width: 0;
+      font-size: 14px; font-weight: 500; color: var(--ink);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      transition: color 0.15s;
+    }
+    .lecture-card:hover .lec-title { color: var(--accent); }
+    .lec-links {
+      display: flex; gap: 5px; align-items: center; flex-shrink: 0;
+    }
+    .lec-link {
+      display: inline-flex; align-items: center; gap: 3px;
+      font-size: 11px; font-weight: 500;
+      padding: 3px 9px;
+      border-radius: 999px;
+      text-decoration: none;
+      transition: opacity 0.15s;
+      white-space: nowrap;
+    }
+    .lec-link:hover { opacity: 0.75; }
+    .lec-link svg { width: 10px; height: 10px; flex-shrink: 0; }
+    .link-slides { background: var(--accent-light); color: var(--accent); }
+    .link-notebook { background: var(--green-light); color: var(--green); }
+    .link-recording { background: var(--amber-light); color: var(--amber); }
+    .link-stub { background: var(--cream2); color: var(--ink3); opacity: 0.5; pointer-events: none; }
+    .lec-arrow {
+      color: var(--sand-dark); flex-shrink: 0;
+      transition: transform 0.18s, color 0.15s;
+      margin-left: 2px;
+    }
+    .lecture-card:hover .lec-arrow { transform: translateX(3px); color: var(--accent); }
+    .lec-arrow svg { width: 14px; height: 14px; }
+
+    /* hide link text on small screens, keep pills */
+    @media (max-width: 700px) {
+      .lec-link span { display: none; }
+      .lec-link { padding: 4px 7px; }
+      .lec-link svg { width: 12px; height: 12px; }
+      .lec-title { font-size: 13px; }
+    }
+
+    /* ── NO RESULTS ── */
+    .empty-state {
+      text-align: center; padding: 60px 20px;
+      color: var(--ink3); font-size: 15px;
+    }
+    .empty-state svg { width: 40px; height: 40px; margin-bottom: 12px; opacity: 0.35; }
+
+    /* ── FOOTER ── */
+    .site-footer {
+      text-align: center;
+      padding: 24px;
+      font-size: 12.5px;
+      color: var(--ink3);
+      border-top: 1px solid var(--cream3);
+    }
+
+    /* ── HIGHLIGHT ── */
+    mark { background: #FDE68A; color: var(--ink); border-radius: 2px; padding: 0 2px; }
+
+    @media (max-width: 600px) {
+      .tab-btn { padding: 12px 6px; }
+      .tab-label { font-size: 10px; }
+      .nav-card { gap: 2px; }
+      .lec-title { font-size: 13.5px; }
+    }
+  </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body>
 
-    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
-        <header class="text-center mb-8">
-            <h1 class="text-3xl sm:text-4xl font-bold text-gray-900">Course Materials</h1>
-            <p class="text-md sm:text-lg text-gray-600 mt-2">Slides, and Recordings</p>
-        </header>
-
-        <!-- Tab Navigation -->
-        <div class="mb-6 border-b border-gray-200">
-            <nav class="-mb-px flex space-x-4" aria-label="Tabs">
-                <button onclick="showTab('ml')" id="ml-tab" class="whitespace-nowrap py-3 px-4 border-b-2 font-medium text-sm tab-active">
-                    Machine Learning
-                </button>
-                <button onclick="showTab('cn')" id="cn-tab" class="whitespace-nowrap py-3 px-4 border-b-2 font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300">
-                    Computer Networks
-                </button>
-                <button onclick="showTab('os')" id="os-tab" class="whitespace-nowrap py-3 px-4 border-b-2 font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300">
-                    Operating Systems
-                </button>
-                 <button onclick="showTab('stt')" id="stt-tab" class="whitespace-nowrap py-3 px-4 border-b-2 font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300">
-                    Software Tools & Techniques
-                </button>
-            </nav>
-        </div>
-
-        <main>
-            <!-- Machine Learning Content -->
-            <div id="ml-content" class="course-content bg-white rounded-xl shadow-md overflow-hidden">
-                 <div class="overflow-x-auto">
-                    <table class="min-w-full text-sm divide-y divide-gray-200">
-                        <thead class="bg-gray-100">
-                            <tr>
-                                <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Lecture #</th>
-                                <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Topic (Slides)</th>
-                                <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Notebooks</th>
-                                <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Recordings</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">1</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Machine_Learning/Lec_Slides/Introduction%20and%20Logistics.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Introduction and Logistics</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Notebook</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">2</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Machine_Learning/Lec_Slides/Convention%2C%20Metrics%2C%20Classification%2C%20Regression.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Convention,Metrics,Classification,Regrression</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Notebook</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">3</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Machine_Learning/Lec_Slides/Decision%20Trees.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Decision Trees</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Notebook</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">4</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Machine_Learning/Lec_Slides/Bias%20and%20Variance.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Bias and variance</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Notebook</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">5</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Machine_Learning/Lec_Slides/Cross%20Validation.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Cross validation</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Notebook</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">6</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Machine_Learning/Lec_Slides/Ensemble%20Learning.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Ensemble Learning</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Notebook</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">7</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Machine_Learning/Lec_Slides/decision%20tree%20pruning.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Decision Tree Pruning</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Notebook</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">8</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Machine_Learning/Lec_Slides/Bias-Variance%20Trade-off.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Bias variance trade-off</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Notebook</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">9</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Machine_Learning/Lec_Slides/mathematical%20ml.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Mathematical ML</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Notebook</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">10</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Machine_Learning/Lec_Slides/Contour%20and%20Gradients.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Contour and Gradients</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Notebook</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">11</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Machine_Learning/Lec_Slides/decision%20tree%20complexity.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Decision Tree Complexity</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Notebook</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">12</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Machine_Learning/Lec_Slides/Linear%20Regression.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Linear Regression</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Notebook</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">13</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Machine_Learning/Lec_Slides/Gradient%20Descent.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Gradient Descent</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Notebook</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">14</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Machine_Learning/Lec_Slides/movie-recommendation.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Matrix factorization for movie recommendation</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Notebook</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">15</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Machine_Learning/Lec_Slides/Ridge%20Regression.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Ridge Regression</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Notebook</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">16</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Machine_Learning/Lec_Slides/Lasso%20Regression.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Lasso Regression</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Notebook</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">17</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Machine_Learning/Lec_Slides/ml-maths-3.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Constrained optimization</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Notebook</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">18</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Machine_Learning/Lec_Slides/Logistic%20Regression.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Logistic Regression</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Notebook</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">19</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Machine_Learning/Lec_Slides/convexity%20hessian%20irls.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Convexity,Hessian,irls</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Notebook</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">20</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Machine_Learning/Lec_Slides/pr%20curve.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Precision Recall curves</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Notebook</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">21</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Machine_Learning/Lec_Slides/MLP.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">MLP</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Notebook</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">22</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Machine_Learning/Lec_Slides/Autograd.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Autograd</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Notebook</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">23</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Machine_Learning/Lec_Slides/Next%20token%20prediction.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Next token prediction</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Notebook</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">24</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Machine_Learning/Lec_Slides/CNN-1.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">CNN-1</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Notebook</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">25</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Machine_Learning/Lec_Slides/Gradcam%2C%20Equivariance%20and%20Invariance.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Gradcam, Equivariance and Invariance</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Notebook</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">26</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Machine_Learning/Lec_Slides/Unsupervised%20Learning%20-%20Clustering.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Unsupervised Learning - Clustering</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Notebook</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">27</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Machine_Learning/Lec_Slides/PCA.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Principal Component Analysis</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Notebook</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">28</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Machine_Learning/Lec_Slides/Reinforcement%20learning.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Reinforcement learning</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Notebook</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">29</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Machine_Learning/Lec_Slides/KNN.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">KNN</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Notebook</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">30</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Machine_Learning/Lec_Slides/KHH-Approx.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">KHH-Approx</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Notebook</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">31</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Machine_Learning/Lec_Slides/Constrained%20Optimization-1.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Constrained Optimization-1</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Notebook</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">32</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Machine_Learning/Lec_Slides/Constrained%20Optimization-2.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Constrained Optimization-2</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Notebook</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">33</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Machine_Learning/Lec_Slides/SVM-Intro.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">SVM-Intro</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Notebook</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">34</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Machine_Learning/Lec_Slides/SVM%20Soft%20Margin.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">SVM Soft Margin</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Notebook</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Computer Networks Content -->
-            <div id="cn-content" class="course-content hidden bg-white rounded-xl shadow-md overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="min-w-full text-sm divide-y divide-gray-200">
-                        <thead class="bg-gray-100">
-                            <tr>
-                                <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Lecture #</th>
-                                <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Topic (Slides)</th>
-                                <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Recordings</th>
-                            </tr>
-                        </thead>
-                         <tbody class="bg-white divide-y divide-gray-200">
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">1</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Computer_Networks/Lec_Slides/CS331_Computer%20Networks_Introduction-Lec1%2C5.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Computer Networking: Principles, Protocols, and Practice</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">2</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Computer_Networks/Lec_Slides/CS331_Application%20Layer-Lec6-12.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Web, Email, and Naming: Study of the Application Layer</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">3</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Computer_Networks/Lec_Slides/CS331_TranportLayer_Lec13-15.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Transport Layer Part 1</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">4</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Computer_Networks/Lec_Slides/CS331_TranportLayer_Lec16-20.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Transport Layer Part 2</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">5</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Computer_Networks/Lec_Slides/CS331-Network%20Layer-Part1.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Network Layer Part 1</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">6</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Computer_Networks/Lec_Slides/CS331-Network%20Layer-Part2.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Network Layer Part 2</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">7</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Computer_Networks/Lec_Slides/CS331-Network%20Layer-Part3.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Network Layer Part 3</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Operating Systems Content -->
-            <div id="os-content" class="course-content hidden bg-white rounded-xl shadow-md overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="min-w-full text-sm divide-y divide-gray-200">
-                        <thead class="bg-gray-100">
-                            <tr>
-                                <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Lecture #</th>
-                                <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Topic (Slides)</th>
-                                <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Recordings</th>
-                            </tr>
-                        </thead>
-                         <tbody class="bg-white divide-y divide-gray-200">
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">1</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Operating_Systems/Lec_Slides/Introduction.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Introduction</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">2</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Operating_Systems/Lec_Slides/Processes.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Processes</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                             <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">3</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Operating_Systems/Lec_Slides/Threads.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Threads</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                             <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">4</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Operating_Systems/Lec_Slides/Scheduling.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Scheduling</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                             <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">5</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Operating_Systems/Lec_Slides/Fair-share%20Scheduling.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Fair share Scheduling</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                             <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">6</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Operating_Systems/Lec_Slides/Virtual%20Memory.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Virtual Memory</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                             <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">7</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Operating_Systems/Lec_Slides/Paging.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Paging</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                             <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">8</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Operating_Systems/Lec_Slides/Synchronization.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Synchronization</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                             <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">9</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Operating_Systems/Lec_Slides/Deadlocks.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Deadlocks</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">10</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Operating_Systems/Lec_Slides/Locks%20and%20CV.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Locks and CV</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">11</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Operating_Systems/Lec_Slides/IO%20Devices.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">IO Devices</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">12</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Operating_Systems/Lec_Slides/File%20Systems.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">File Systems</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            
-             <!-- Software Tools & Techniques Content -->
-            <div id="stt-content" class="course-content hidden bg-white rounded-xl shadow-md overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="min-w-full text-sm divide-y divide-gray-200">
-                        <thead class="bg-gray-100">
-                            <tr>
-                                <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Lecture #</th>
-                                <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Topic (Slides)</th>
-                                <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Recordings</th>
-                            </tr>
-                        </thead>
-                         <tbody class="bg-white divide-y divide-gray-200">
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">1</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Software_Toolsand_Techniques/Lec_Slides/CS202_Lecture_1.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Introduction to Software Development Tools</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">2</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Software_Toolsand_Techniques/Lec_Slides/CS202_Lecture_2_05_Aug_2025.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Continuous Integration, Version Control, and Automated Bug Analysis</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">3</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Software_Toolsand_Techniques/Lec_Slides/CS202_Lecture_3_12_Aug_2025.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">MineCPP</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">4</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Software_Toolsand_Techniques/Lec_Slides/CS202_Lecture_4_19_Aug_2025.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Git's Diff Algorithms</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">5</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Software_Toolsand_Techniques/Lec_Slides/CS202_Lecture_5_26_Aug_2025.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Program Analysis and Compilers</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">6</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Software_Toolsand_Techniques/Lec_Slides/CS202_Lecture_6_02_Sep_2025.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Static Analysis and Software Testing</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">7</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Software_Toolsand_Techniques/Lec_Slides/CS202_Lecture_7_09_Sep_2025.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Fundamentals of Data Flow Analysis</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">8</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Software_Toolsand_Techniques/Lec_Slides/CS202_Lecture_8_16_Sep_2025.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Dimensions of Data Flow Analysis</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">9</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Software_Toolsand_Techniques/Lec_Slides/CS202_Lecture_9_7_Oct_2025.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Introduction to the .NET Platform</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">10</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Software_Toolsand_Techniques/Lec_Slides/CS202_Lecture_10_14_Oct_2025.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Operator Precedence in C# and C/C++</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">11</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Software_Toolsand_Techniques/Lec_Slides/CS202_Lecture_11_21_Oct_2025.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Basic inheritance in C#</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">12</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Software_Toolsand_Techniques/Lec_Slides/CS202_Lecture_12_28_Oct_2025.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Events and Delegates in C# Windows Forms App.</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">13</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Software_Toolsand_Techniques/Lec_Slides/CS202_Lecture_13_04_Nov_2025.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Event-driven Programming in C# (contd.) part 1</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">14</td>
-                                <td class="px-6 py-4"><a href="https://github.com/ps-keerthana/COURSE_WORKS/blob/main/Software_Toolsand_Techniques/Lec_Slides/CS202_Lecture_14_11_Nov_2025.pdf" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Event-driven Programming in C# (contd.) part 2</a></td>
-                                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">Link to Recording</a></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </main>
+<!-- ── HEADER ── -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+      CourseVault
     </div>
+    <h1>Your <span>Course</span> Materials</h1>
+    <p>Lecture slides, notebooks, and recordings — all in one place.</p>
+    <div class="search-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="search-input" type="text" placeholder="Search any lecture or topic…" autocomplete="off" />
+      <button id="search-clear" aria-label="Clear search">✕</button>
+    </div>
+  </div>
+</header>
 
-    <script>
-        const tabs = ['ml', 'cn', 'os', 'stt'];
-        function showTab(tabId) {
-            // Hide all course content
-            tabs.forEach(id => {
-                document.getElementById(id + '-content').classList.add('hidden');
-                document.getElementById(id + '-tab').classList.remove('tab-active');
-                document.getElementById(id + '-tab').classList.add('text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300');
+<!-- ── PAGE BODY ── -->
+<div class="page-body">
 
-            });
-            // Show the selected one
-            document.getElementById(tabId + '-content').classList.remove('hidden');
-            const activeTab = document.getElementById(tabId + '-tab');
-            activeTab.classList.add('tab-active');
-            activeTab.classList.remove('text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300');
-        }
-    </script>
+  <!-- Tab Nav -->
+  <nav class="nav-card" role="tablist" aria-label="Courses">
+    <button class="tab-btn active" id="tab-ml" onclick="showTab('ml')" role="tab" aria-selected="true">
+      <div class="tab-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg>
+      </div>
+      <span class="tab-label">Machine<br>Learning</span>
+      <span class="tab-count">34</span>
+    </button>
+    <button class="tab-btn" id="tab-cn" onclick="showTab('cn')" role="tab" aria-selected="false">
+      <div class="tab-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="6" height="6" rx="1"/><rect x="16" y="2" width="6" height="6" rx="1"/><rect x="9" y="16" width="6" height="6" rx="1"/><path d="M5 8v3a1 1 0 001 1h12a1 1 0 001-1V8M12 12v4"/></svg>
+      </div>
+      <span class="tab-label">Computer<br>Networks</span>
+      <span class="tab-count">7</span>
+    </button>
+    <button class="tab-btn" id="tab-os" onclick="showTab('os')" role="tab" aria-selected="false">
+      <div class="tab-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+      </div>
+      <span class="tab-label">Operating<br>Systems</span>
+      <span class="tab-count">12</span>
+    </button>
+    <button class="tab-btn" id="tab-stt" onclick="showTab('stt')" role="tab" aria-selected="false">
+      <div class="tab-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      </div>
+      <span class="tab-label">Software<br>Tools</span>
+      <span class="tab-count">14</span>
+    </button>
+  </nav>
+
+  <!-- Search Results -->
+  <section id="search-results-section" aria-live="polite">
+    <p class="results-label" id="results-label"></p>
+    <div class="lectures-grid" id="search-results-grid"></div>
+    <div class="empty-state" id="empty-state" style="display:none">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <p>No lectures found for "<span id="empty-query"></span>"</p>
+    </div>
+  </section>
+
+  <!-- Machine Learning -->
+  <section class="course-section active" id="section-ml">
+    <div class="section-header">
+      <div class="section-icon" style="background:var(--accent-light)">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg>
+      </div>
+      <div>
+        <div class="section-title">Machine Learning</div>
+        <div class="section-sub">34 lectures · Slides, Notebooks & Recordings</div>
+      </div>
+    </div>
+    <div class="lectures-grid" id="grid-ml"></div>
+  </section>
+
+  <!-- Computer Networks -->
+  <section class="course-section" id="section-cn">
+    <div class="section-header">
+      <div class="section-icon" style="background:var(--green-light)">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.8"><rect x="2" y="2" width="6" height="6" rx="1"/><rect x="16" y="2" width="6" height="6" rx="1"/><rect x="9" y="16" width="6" height="6" rx="1"/><path d="M5 8v3a1 1 0 001 1h12a1 1 0 001-1V8M12 12v4"/></svg>
+      </div>
+      <div>
+        <div class="section-title">Computer Networks</div>
+        <div class="section-sub">7 lectures · Slides & Recordings</div>
+      </div>
+    </div>
+    <div class="lectures-grid" id="grid-cn"></div>
+  </section>
+
+  <!-- Operating Systems -->
+  <section class="course-section" id="section-os">
+    <div class="section-header">
+      <div class="section-icon" style="background:var(--amber-light)">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+      </div>
+      <div>
+        <div class="section-title">Operating Systems</div>
+        <div class="section-sub">12 lectures · Slides & Recordings</div>
+      </div>
+    </div>
+    <div class="lectures-grid" id="grid-os"></div>
+  </section>
+
+  <!-- Software Tools -->
+  <section class="course-section" id="section-stt">
+    <div class="section-header">
+      <div class="section-icon" style="background:var(--purple-light)">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="1.8"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      </div>
+      <div>
+        <div class="section-title">Software Tools & Techniques</div>
+        <div class="section-sub">14 lectures · Slides & Recordings</div>
+      </div>
+    </div>
+    <div class="lectures-grid" id="grid-stt"></div>
+  </section>
+
+</div>
+
+<footer class="site-footer">
+  CourseVault · Slides, Notebooks & Recordings
+</footer>
+
+<script>
+const BASE = 'https://github.com/ps-keerthana/COURSE_WORKS/blob/main/';
+
+const COURSES = {
+  ml: {
+    hasNotebook: true,
+    lectures: [
+      { n:1,  title:'Introduction and Logistics', slides:'Machine_Learning/Lec_Slides/Introduction%20and%20Logistics.pdf' },
+      { n:2,  title:'Convention, Metrics, Classification, Regression', slides:'Machine_Learning/Lec_Slides/Convention%2C%20Metrics%2C%20Classification%2C%20Regression.pdf' },
+      { n:3,  title:'Decision Trees', slides:'Machine_Learning/Lec_Slides/Decision%20Trees.pdf' },
+      { n:4,  title:'Bias and Variance', slides:'Machine_Learning/Lec_Slides/Bias%20and%20Variance.pdf' },
+      { n:5,  title:'Cross Validation', slides:'Machine_Learning/Lec_Slides/Cross%20Validation.pdf' },
+      { n:6,  title:'Ensemble Learning', slides:'Machine_Learning/Lec_Slides/Ensemble%20Learning.pdf' },
+      { n:7,  title:'Decision Tree Pruning', slides:'Machine_Learning/Lec_Slides/decision%20tree%20pruning.pdf' },
+      { n:8,  title:'Bias-Variance Trade-off', slides:'Machine_Learning/Lec_Slides/Bias-Variance%20Trade-off.pdf' },
+      { n:9,  title:'Mathematical ML', slides:'Machine_Learning/Lec_Slides/mathematical%20ml.pdf' },
+      { n:10, title:'Contour and Gradients', slides:'Machine_Learning/Lec_Slides/Contour%20and%20Gradients.pdf' },
+      { n:11, title:'Decision Tree Complexity', slides:'Machine_Learning/Lec_Slides/decision%20tree%20complexity.pdf' },
+      { n:12, title:'Linear Regression', slides:'Machine_Learning/Lec_Slides/Linear%20Regression.pdf' },
+      { n:13, title:'Gradient Descent', slides:'Machine_Learning/Lec_Slides/Gradient%20Descent.pdf' },
+      { n:14, title:'Matrix Factorization for Movie Recommendation', slides:'Machine_Learning/Lec_Slides/movie-recommendation.pdf' },
+      { n:15, title:'Ridge Regression', slides:'Machine_Learning/Lec_Slides/Ridge%20Regression.pdf' },
+      { n:16, title:'Lasso Regression', slides:'Machine_Learning/Lec_Slides/Lasso%20Regression.pdf' },
+      { n:17, title:'Constrained Optimization', slides:'Machine_Learning/Lec_Slides/ml-maths-3.pdf' },
+      { n:18, title:'Logistic Regression', slides:'Machine_Learning/Lec_Slides/Logistic%20Regression.pdf' },
+      { n:19, title:'Convexity, Hessian, IRLS', slides:'Machine_Learning/Lec_Slides/convexity%20hessian%20irls.pdf' },
+      { n:20, title:'Precision Recall Curves', slides:'Machine_Learning/Lec_Slides/pr%20curve.pdf' },
+      { n:21, title:'MLP', slides:'Machine_Learning/Lec_Slides/MLP.pdf' },
+      { n:22, title:'Autograd', slides:'Machine_Learning/Lec_Slides/Autograd.pdf' },
+      { n:23, title:'Next Token Prediction', slides:'Machine_Learning/Lec_Slides/Next%20token%20prediction.pdf' },
+      { n:24, title:'CNN-1', slides:'Machine_Learning/Lec_Slides/CNN-1.pdf' },
+      { n:25, title:'GradCAM, Equivariance and Invariance', slides:'Machine_Learning/Lec_Slides/Gradcam%2C%20Equivariance%20and%20Invariance.pdf' },
+      { n:26, title:'Unsupervised Learning – Clustering', slides:'Machine_Learning/Lec_Slides/Unsupervised%20Learning%20-%20Clustering.pdf' },
+      { n:27, title:'Principal Component Analysis', slides:'Machine_Learning/Lec_Slides/PCA.pdf' },
+      { n:28, title:'Reinforcement Learning', slides:'Machine_Learning/Lec_Slides/Reinforcement%20learning.pdf' },
+      { n:29, title:'KNN', slides:'Machine_Learning/Lec_Slides/KNN.pdf' },
+      { n:30, title:'KHH-Approx', slides:'Machine_Learning/Lec_Slides/KHH-Approx.pdf' },
+      { n:31, title:'Constrained Optimization-1', slides:'Machine_Learning/Lec_Slides/Constrained%20Optimization-1.pdf' },
+      { n:32, title:'Constrained Optimization-2', slides:'Machine_Learning/Lec_Slides/Constrained%20Optimization-2.pdf' },
+      { n:33, title:'SVM – Introduction', slides:'Machine_Learning/Lec_Slides/SVM-Intro.pdf' },
+      { n:34, title:'SVM Soft Margin', slides:'Machine_Learning/Lec_Slides/SVM%20Soft%20Margin.pdf' },
+    ]
+  },
+  cn: {
+    hasNotebook: false,
+    lectures: [
+      { n:1, title:'Computer Networking: Principles, Protocols, and Practice', slides:'Computer_Networks/Lec_Slides/CS331_Computer%20Networks_Introduction-Lec1%2C5.pdf' },
+      { n:2, title:'Web, Email, and Naming: Study of the Application Layer', slides:'Computer_Networks/Lec_Slides/CS331_Application%20Layer-Lec6-12.pdf' },
+      { n:3, title:'Transport Layer Part 1', slides:'Computer_Networks/Lec_Slides/CS331_TranportLayer_Lec13-15.pdf' },
+      { n:4, title:'Transport Layer Part 2', slides:'Computer_Networks/Lec_Slides/CS331_TranportLayer_Lec16-20.pdf' },
+      { n:5, title:'Network Layer Part 1', slides:'Computer_Networks/Lec_Slides/CS331-Network%20Layer-Part1.pdf' },
+      { n:6, title:'Network Layer Part 2', slides:'Computer_Networks/Lec_Slides/CS331-Network%20Layer-Part2.pdf' },
+      { n:7, title:'Network Layer Part 3', slides:'Computer_Networks/Lec_Slides/CS331-Network%20Layer-Part3.pdf' },
+    ]
+  },
+  os: {
+    hasNotebook: false,
+    lectures: [
+      { n:1,  title:'Introduction', slides:'Operating_Systems/Lec_Slides/Introduction.pdf' },
+      { n:2,  title:'Processes', slides:'Operating_Systems/Lec_Slides/Processes.pdf' },
+      { n:3,  title:'Threads', slides:'Operating_Systems/Lec_Slides/Threads.pdf' },
+      { n:4,  title:'Scheduling', slides:'Operating_Systems/Lec_Slides/Scheduling.pdf' },
+      { n:5,  title:'Fair-share Scheduling', slides:'Operating_Systems/Lec_Slides/Fair-share%20Scheduling.pdf' },
+      { n:6,  title:'Virtual Memory', slides:'Operating_Systems/Lec_Slides/Virtual%20Memory.pdf' },
+      { n:7,  title:'Paging', slides:'Operating_Systems/Lec_Slides/Paging.pdf' },
+      { n:8,  title:'Synchronization', slides:'Operating_Systems/Lec_Slides/Synchronization.pdf' },
+      { n:9,  title:'Deadlocks', slides:'Operating_Systems/Lec_Slides/Deadlocks.pdf' },
+      { n:10, title:'Locks and Condition Variables', slides:'Operating_Systems/Lec_Slides/Locks%20and%20CV.pdf' },
+      { n:11, title:'IO Devices', slides:'Operating_Systems/Lec_Slides/IO%20Devices.pdf' },
+      { n:12, title:'File Systems', slides:'Operating_Systems/Lec_Slides/File%20Systems.pdf' },
+    ]
+  },
+  stt: {
+    hasNotebook: false,
+    lectures: [
+      { n:1,  title:'Introduction to Software Development Tools', slides:'Software_Toolsand_Techniques/Lec_Slides/CS202_Lecture_1.pdf' },
+      { n:2,  title:'Continuous Integration, Version Control, and Automated Bug Analysis', slides:'Software_Toolsand_Techniques/Lec_Slides/CS202_Lecture_2_05_Aug_2025.pdf' },
+      { n:3,  title:'MineCPP', slides:'Software_Toolsand_Techniques/Lec_Slides/CS202_Lecture_3_12_Aug_2025.pdf' },
+      { n:4,  title:"Git's Diff Algorithms", slides:'Software_Toolsand_Techniques/Lec_Slides/CS202_Lecture_4_19_Aug_2025.pdf' },
+      { n:5,  title:'Program Analysis and Compilers', slides:'Software_Toolsand_Techniques/Lec_Slides/CS202_Lecture_5_26_Aug_2025.pdf' },
+      { n:6,  title:'Static Analysis and Software Testing', slides:'Software_Toolsand_Techniques/Lec_Slides/CS202_Lecture_6_02_Sep_2025.pdf' },
+      { n:7,  title:'Fundamentals of Data Flow Analysis', slides:'Software_Toolsand_Techniques/Lec_Slides/CS202_Lecture_7_09_Sep_2025.pdf' },
+      { n:8,  title:'Dimensions of Data Flow Analysis', slides:'Software_Toolsand_Techniques/Lec_Slides/CS202_Lecture_8_16_Sep_2025.pdf' },
+      { n:9,  title:'Introduction to the .NET Platform', slides:'Software_Toolsand_Techniques/Lec_Slides/CS202_Lecture_9_7_Oct_2025.pdf' },
+      { n:10, title:'Operator Precedence in C# and C/C++', slides:'Software_Toolsand_Techniques/Lec_Slides/CS202_Lecture_10_14_Oct_2025.pdf' },
+      { n:11, title:'Basic Inheritance in C#', slides:'Software_Toolsand_Techniques/Lec_Slides/CS202_Lecture_11_21_Oct_2025.pdf' },
+      { n:12, title:'Events and Delegates in C# Windows Forms App', slides:'Software_Toolsand_Techniques/Lec_Slides/CS202_Lecture_12_28_Oct_2025.pdf' },
+      { n:13, title:'Event-driven Programming in C# (Part 1)', slides:'Software_Toolsand_Techniques/Lec_Slides/CS202_Lecture_13_04_Nov_2025.pdf' },
+      { n:14, title:'Event-driven Programming in C# (Part 2)', slides:'Software_Toolsand_Techniques/Lec_Slides/CS202_Lecture_14_11_Nov_2025.pdf' },
+    ]
+  }
+};
+
+const ICONS = {
+  slides: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="10" height="10"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>`,
+  notebook: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="10" height="10"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>`,
+  recording: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="10" height="10"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>`,
+  arrow: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>`,
+};
+
+function buildCard(lec, course, courseId, query='') {
+  const slidesUrl = BASE + lec.slides;
+  const hasNb = course.hasNotebook;
+
+  const titleHtml = query
+    ? lec.title.replace(new RegExp(`(${escRe(query)})`, 'gi'), '<mark>$1</mark>')
+    : lec.title;
+
+  const numStr = String(lec.n).padStart(2,'0');
+
+  const courseLabel = query
+    ? `<span style="font-size:10px;padding:1px 7px;border-radius:999px;background:var(--cream2);color:var(--ink3);margin-right:6px;flex-shrink:0">${courseId.toUpperCase()}</span>`
+    : '';
+
+  const nbPill = hasNb
+    ? `<span class="lec-link link-notebook"><span>${ICONS.notebook}</span><span>Notebook</span></span>`
+    : '';
+  const recPill = `<span class="lec-link link-stub"><span>${ICONS.recording}</span><span>Recording</span></span>`;
+
+  return `
+    <div class="lecture-card" onclick="window.open('${slidesUrl}','_blank')">
+      <div class="lec-num">${numStr}</div>
+      ${courseLabel}
+      <div class="lec-title">${titleHtml}</div>
+      <div class="lec-links">
+        <a class="lec-link link-slides" href="${slidesUrl}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()"><span>${ICONS.slides}</span><span>Slides</span></a>
+        ${nbPill}
+        ${recPill}
+      </div>
+      <div class="lec-arrow">${ICONS.arrow}</div>
+    </div>`;
+}
+
+function escRe(s) { return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); }
+
+function renderAll() {
+  for (const [id, course] of Object.entries(COURSES)) {
+    const grid = document.getElementById('grid-' + id);
+    grid.innerHTML = course.lectures.map(l => buildCard(l, course, id)).join('');
+  }
+}
+
+let activeTab = 'ml';
+
+function showTab(id) {
+  activeTab = id;
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    b.classList.remove('active'); b.setAttribute('aria-selected','false');
+  });
+  document.getElementById('tab-' + id).classList.add('active');
+  document.getElementById('tab-' + id).setAttribute('aria-selected','true');
+  document.querySelectorAll('.course-section').forEach(s => s.classList.remove('active'));
+  const sec = document.getElementById('section-' + id);
+  sec.classList.add('active');
+  // restart animation
+  sec.style.animation = 'none';
+  sec.offsetHeight;
+  sec.style.animation = '';
+
+  clearSearch();
+}
+
+function clearSearch() {
+  const input = document.getElementById('search-input');
+  input.value = '';
+  document.getElementById('search-clear').classList.remove('show');
+  document.getElementById('search-results-section').style.display = 'none';
+  document.querySelectorAll('.course-section').forEach(s => s.classList.remove('active'));
+  document.getElementById('section-' + activeTab).classList.add('active');
+}
+
+document.getElementById('search-input').addEventListener('input', function() {
+  const q = this.value.trim();
+  const clearBtn = document.getElementById('search-clear');
+  clearBtn.classList.toggle('show', q.length > 0);
+
+  if (!q) { clearSearch(); return; }
+
+  document.querySelectorAll('.course-section').forEach(s => s.classList.remove('active'));
+  const resultsSec = document.getElementById('search-results-section');
+  resultsSec.style.display = 'block';
+
+  const matches = [];
+  for (const [id, course] of Object.entries(COURSES)) {
+    course.lectures.forEach(l => {
+      if (l.title.toLowerCase().includes(q.toLowerCase())) {
+        matches.push({ lec: l, course, id });
+      }
+    });
+  }
+
+  const grid = document.getElementById('search-results-grid');
+  const empty = document.getElementById('empty-state');
+  const label = document.getElementById('results-label');
+
+  if (matches.length === 0) {
+    grid.innerHTML = '';
+    empty.style.display = 'block';
+    document.getElementById('empty-query').textContent = q;
+    label.innerHTML = '';
+  } else {
+    empty.style.display = 'none';
+    label.innerHTML = `<strong>${matches.length}</strong> result${matches.length===1?'':'s'} for "${q}"`;
+    grid.innerHTML = matches.map(m => buildCard(m.lec, m.course, m.id, q)).join('');
+  }
+});
+
+document.getElementById('search-clear').addEventListener('click', clearSearch);
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') clearSearch();
+});
+
+renderAll();
+</script>
 </body>
 </html>
-
