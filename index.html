@@ -307,6 +307,26 @@
       border-top: 1px solid var(--cream3);
     }
 
+    /* ── TUTORIAL PILL ── */
+    .link-tutorial { background: #F0ECFF; color: #5B3FA6; }
+    .link-ref      { background: var(--cream2); color: var(--ink2); }
+
+    /* ── REFERENCE BOOKS ROW ── */
+    .ref-books {
+      margin-top: 10px;
+      display: flex; flex-wrap: wrap; gap: 6px;
+      padding: 0 2px;
+    }
+    .ref-book-link {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 12px; font-weight: 500; color: var(--ink2);
+      background: var(--cream2); border: 1px solid var(--cream3);
+      border-radius: var(--radius-sm); padding: 5px 11px;
+      text-decoration: none; transition: background 0.15s, border-color 0.15s;
+    }
+    .ref-book-link:hover { background: var(--cream3); border-color: var(--sand); }
+    .ref-book-link svg { width: 12px; height: 12px; flex-shrink: 0; color: var(--ink3); }
+
     /* ── HIGHLIGHT ── */
     mark { background: #FDE68A; color: var(--ink); border-radius: 2px; padding: 0 2px; }
 
@@ -370,6 +390,27 @@
       <span class="tab-label">Software<br>Tools</span>
       <span class="tab-count">14</span>
     </button>
+    <button class="tab-btn" id="tab-db" onclick="showTab('db')" role="tab" aria-selected="false">
+      <div class="tab-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>
+      </div>
+      <span class="tab-label">Databases</span>
+      <span class="tab-count">18</span>
+    </button>
+    <button class="tab-btn" id="tab-compiler" onclick="showTab('compiler')" role="tab" aria-selected="false">
+      <div class="tab-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10 20l4-16M6.5 9L3 12l3.5 3M17.5 9L21 12l-3.5 3"/></svg>
+      </div>
+      <span class="tab-label">Compilers</span>
+      <span class="tab-count">6</span>
+    </button>
+    <button class="tab-btn" id="tab-coa" onclick="showTab('coa')" role="tab" aria-selected="false">
+      <div class="tab-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/></svg>
+      </div>
+      <span class="tab-label">COA</span>
+      <span class="tab-count">13</span>
+    </button>
   </nav>
 
   <!-- Search Results -->
@@ -404,7 +445,7 @@
       </div>
       <div>
         <div class="section-title">Computer Networks</div>
-        <div class="section-sub">7 lectures · Slides & Recordings</div>
+        <div class="section-sub">7 lectures · Slides</div>
       </div>
     </div>
     <div class="lectures-grid" id="grid-cn"></div>
@@ -438,6 +479,49 @@
     <div class="lectures-grid" id="grid-stt"></div>
   </section>
 
+
+  <!-- Databases -->
+  <section class="course-section" id="section-db">
+    <div class="section-header">
+      <div class="section-icon" style="background:#EEF6FF">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1D6FA4" stroke-width="1.8"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>
+      </div>
+      <div>
+        <div class="section-title">Databases</div>
+        <div class="section-sub">18 lectures · Slides</div>
+      </div>
+    </div>
+    <div class="lectures-grid" id="grid-db"></div>
+  </section>
+
+  <!-- Compilers -->
+  <section class="course-section" id="section-compiler">
+    <div class="section-header">
+      <div class="section-icon" style="background:#F0FFF4">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#276749" stroke-width="1.8"><path d="M10 20l4-16M6.5 9L3 12l3.5 3M17.5 9L21 12l-3.5 3"/></svg>
+      </div>
+      <div>
+        <div class="section-title">Compilers</div>
+        <div class="section-sub">6 lectures · Slides</div>
+      </div>
+    </div>
+    <div class="lectures-grid" id="grid-compiler"></div>
+  </section>
+
+  <!-- COA -->
+  <section class="course-section" id="section-coa">
+    <div class="section-header">
+      <div class="section-icon" style="background:#FFF7ED">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#92400E" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/></svg>
+      </div>
+      <div>
+        <div class="section-title">Computer Organization & Architecture</div>
+        <div class="section-sub">13 lectures · Slides</div>
+      </div>
+    </div>
+    <div class="lectures-grid" id="grid-coa"></div>
+  </section>
+
 </div>
 
 <footer class="site-footer">
@@ -447,9 +531,49 @@
 <script>
 const BASE = 'https://github.com/ps-keerthana/COURSE_WORKS/blob/main/';
 
+// Reference book data per course
+const REFS = {
+  cn: [
+    { label: 'Computer Networking: A Top-Down Approach', url: BASE + 'Computer_Networks/Books/Computer%20Networking%20_%20A%20Top%20Down%20Approach%2C%207th%2C%20converted.pdf' },
+    { label: 'Book 2', url: BASE + 'Computer_Networks/Books/book%202.pdf' },
+  ],
+  db: [
+    { label: 'Database System Concepts — Silberschatz', url: BASE + 'Databases/References/Silberschatz-Database%20System%20Concepts%206th%20ed.pdf' },
+    { label: 'Fundamentals of Database Systems', url: BASE + 'Databases/References/fundamentals-of-database-systems.pdf' },
+  ],
+  compiler: [
+    { label: 'Dragon Book — Aho, Lam, Sethi, Ullman', url: BASE + 'Compilers/References/Dragon%20Book.pdf' },
+  ],
+  coa: [
+    { label: 'Patterson & Hennessy (COA5E)', url: BASE + 'Computer_Organization%20%26%20Architecture/References/COA5E%20-%20Patterson%20Hennessy%20.pdf' },
+    { label: 'Computer Organisation — Stallings', url: BASE + 'Computer_Organization%20%26%20Architecture/References/COA%20William%20Stallings.pdf' },
+    { label: 'Harris & Harris — Morgan Kaufmann', url: BASE + 'Computer_Organization%20%26%20Architecture/References/Harris%2C%20David%20Money%3BHarris%2C%20Sarah%20L%20%2CMorgan%20Kaufmann%20.pdf' },
+  ],
+};
+
+// Tutorial data for COA
+const TUTORIALS = {
+  coa: [
+    { n:1,  title:'Number Systems and Digital Systems',       url: BASE + 'Computer_Organization%20%26%20Architecture/Tutorials/Tut01_Number_Systems_and_Digital_Systems.pdf' },
+    { n:2,  title:'Performance Metrics and CPI',             url: BASE + 'Computer_Organization%20%26%20Architecture/Tutorials/Tut02_Performance_Metrics_and_CPI.pdf' },
+    { n:3,  title:'Performance Comparison and MIPS Rating',  url: BASE + 'Computer_Organization%20%26%20Architecture/Tutorials/Tut03_Performance_Comparison_and_MIPS_Rating.pdf' },
+    { n:4,  title:'HW–Software Interface and Memory Layout', url: BASE + 'Computer_Organization%20%26%20Architecture/Tutorials/Tut04_HW_Software_Interface_and_Memory_Layout.pdf' },
+    { n:5,  title:'Assembly Language Programming',           url: BASE + 'Computer_Organization%20%26%20Architecture/Tutorials/Tut05_Assembly_Language_Programming.pdf' },
+    { n:6,  title:'MIPS Assembly and Disassembly',           url: BASE + 'Computer_Organization%20%26%20Architecture/Tutorials/Tut06_MIPS_Assembly_and_Disassembly.pdf' },
+    { n:8,  title:'Single Cycle and Multi-Cycle Processor',  url: BASE + 'Computer_Organization%20%26%20Architecture/Tutorials/Tut08_Single_Cycle_and_Multi_Cycle_Processor.pdf' },
+    { n:9,  title:'Pipelined Processor Problems',            url: BASE + 'Computer_Organization%20%26%20Architecture/Tutorials/Tut09_Pipelined_Processor_Problems.pdf' },
+    { n:10, title:'Data Hazards in Pipeline',                url: BASE + 'Computer_Organization%20%26%20Architecture/Tutorials/Tut10_Data_Hazards_in_Pipeline.pdf' },
+    { n:11, title:'Control Hazards in Pipeline',             url: BASE + 'Computer_Organization%20%26%20Architecture/Tutorials/Tut11_Control_Hazards_in_Pipeline.pdf' },
+    { n:12, title:'Cache Design Problems',                   url: BASE + 'Computer_Organization%20%26%20Architecture/Tutorials/Tut12_Cache_Design_Problems.pdf' },
+    { n:'G', title:'QtSpim Assembly Simulator Guide',        url: BASE + 'Computer_Organization%20%26%20Architecture/Tutorials/Guide_QtSpim_Assembly_Simulator.pdf' },
+    { n:'G', title:'WeMIPS Online Emulator Guide',           url: BASE + 'Computer_Organization%20%26%20Architecture/Tutorials/Guide_WeMIPS_Online_Emulator.pdf' },
+  ],
+};
+
 const COURSES = {
   ml: {
     hasNotebook: true,
+    hasRecording: true,
     lectures: [
       { n:1,  title:'Introduction and Logistics', slides:'Machine_Learning/Lec_Slides/Introduction%20and%20Logistics.pdf' },
       { n:2,  title:'Convention, Metrics, Classification, Regression', slides:'Machine_Learning/Lec_Slides/Convention%2C%20Metrics%2C%20Classification%2C%20Regression.pdf' },
@@ -489,6 +613,7 @@ const COURSES = {
   },
   cn: {
     hasNotebook: false,
+    hasRecording: false,
     lectures: [
       { n:1, title:'Computer Networking: Principles, Protocols, and Practice', slides:'Computer_Networks/Lec_Slides/CS331_Computer%20Networks_Introduction-Lec1%2C5.pdf' },
       { n:2, title:'Web, Email, and Naming: Study of the Application Layer', slides:'Computer_Networks/Lec_Slides/CS331_Application%20Layer-Lec6-12.pdf' },
@@ -501,6 +626,7 @@ const COURSES = {
   },
   os: {
     hasNotebook: false,
+    hasRecording: true,
     lectures: [
       { n:1,  title:'Introduction', slides:'Operating_Systems/Lec_Slides/Introduction.pdf' },
       { n:2,  title:'Processes', slides:'Operating_Systems/Lec_Slides/Processes.pdf' },
@@ -518,6 +644,7 @@ const COURSES = {
   },
   stt: {
     hasNotebook: false,
+    hasRecording: true,
     lectures: [
       { n:1,  title:'Introduction to Software Development Tools', slides:'Software_Toolsand_Techniques/Lec_Slides/CS202_Lecture_1.pdf' },
       { n:2,  title:'Continuous Integration, Version Control, and Automated Bug Analysis', slides:'Software_Toolsand_Techniques/Lec_Slides/CS202_Lecture_2_05_Aug_2025.pdf' },
@@ -534,25 +661,83 @@ const COURSES = {
       { n:13, title:'Event-driven Programming in C# (Part 1)', slides:'Software_Toolsand_Techniques/Lec_Slides/CS202_Lecture_13_04_Nov_2025.pdf' },
       { n:14, title:'Event-driven Programming in C# (Part 2)', slides:'Software_Toolsand_Techniques/Lec_Slides/CS202_Lecture_14_11_Nov_2025.pdf' },
     ]
+  },
+  db: {
+    hasNotebook: false,
+    hasRecording: false,
+    lectures: [
+      { n:1,  title:'Introduction to Databases', slides:'Databases/Lec_Slides/Lec01_Introduction_to_Databases.pdf' },
+      { n:2,  title:'What is a Database', slides:'Databases/Lec_Slides/Lec02_What_is_a_Database.pdf' },
+      { n:3,  title:'Course Project Discussion', slides:'Databases/Lec_Slides/Lec03_Course_Project_Discussion.pdf' },
+      { n:4,  title:'Database Languages — DDL, DML & SQL', slides:'Databases/Lec_Slides/Lec04_Database_Languages_DDL_DML_SQL.pdf' },
+      { n:5,  title:'Relational Model', slides:'Databases/Lec_Slides/Lec05_Relational_Model.pdf' },
+      { n:6,  title:'SQL Basics', slides:'Databases/Lec_Slides/Lec06_SQL_Basics.pdf' },
+      { n:7,  title:'SQL Hands-on Exercise', slides:'Databases/Lec_Slides/Lec07_SQL_Hands_on_Exercise.pdf' },
+      { n:9,  title:'SQL Multi-Relation Queries', slides:'Databases/Lec_Slides/Lec09_SQL_Multi_Relation_Queries.pdf' },
+      { n:10, title:'SQL Joins', slides:'Databases/Lec_Slides/Lec10_SQL_Joins.pdf' },
+      { n:11, title:'Formal Relational Query Languages', slides:'Databases/Lec_Slides/Lec10-11_Formal_Relational_Query_Languages.pdf' },
+      { n:12, title:'ER Model and Database Design', slides:'Databases/Lec_Slides/Lec11_ER_Model_and_Database_Design.pdf' },
+      { n:13, title:'ER Design Issues and Schema Reduction', slides:'Databases/Lec_Slides/Lec13_ER_Design_Issues_and_Schema_Reduction.pdf' },
+      { n:14, title:'Practical Database Design Methodology', slides:'Databases/Lec_Slides/Lec14_Practical_Database_Design_Methodology.pdf' },
+      { n:15, title:'Relational Database Design & Normalization', slides:'Databases/Lec_Slides/Lec15-17_Relational_Database_Design_Normalization.pdf' },
+      { n:19, title:'Indexing and Hashing', slides:'Databases/Lec_Slides/Lec19_Indexing_and_Hashing.pdf' },
+      { n:20, title:'Query Processing and Optimization', slides:'Databases/Lec_Slides/Lec20_Query_Processing_and_Optimization.pdf' },
+      { n:21, title:'Introduction to NoSQL', slides:'Databases/Lec_Slides/LecTBD_Introduction_to_NoSQL.pdf' },
+      { n:22, title:'SQL Hands-on Exercise 1', slides:'Databases/Lec_Slides/Exercise01_SQL_Hands_on.pdf' },
+    ]
+  },
+  compiler: {
+    hasNotebook: false,
+    hasRecording: false,
+    lectures: [
+      { n:1, title:'Course Intro and Overview', slides:'Compilers/Lec_Slides/Lec01_Course_Intro_and_Overview.pdf' },
+      { n:2, title:'Static vs Dynamic and Parameter Passing', slides:'Compilers/Lec_Slides/Lec02_Static_vs_Dynamic_and_Parameter_Passing.pdf' },
+      { n:3, title:'Lexical Analysis', slides:'Compilers/Lec_Slides/Lec03-04_Lexical_Analysis.pdf' },
+      { n:4, title:'Parsing', slides:'Compilers/Lec_Slides/Lec08-11_Parsing.pdf' },
+      { n:5, title:'Context-Free Grammars (Reference)', slides:'Compilers/Lec_Slides/Ref_Context_Free_Grammars.pdf' },
+      { n:6, title:'Introduction to Parsing (Reference)', slides:'Compilers/Lec_Slides/Ref_Introduction_to_Parsing.pdf' },
+    ]
+  },
+  coa: {
+    hasNotebook: false,
+    hasRecording: false,
+    lectures: [
+      { n:1,  title:'COA Course Intro and Overview', slides:'Computer_Organization%20%26%20Architecture/Lec%20Slides/L01-02_COA_Course_Intro_and_Overview.pdf' },
+      { n:2,  title:'Performance Metrics', slides:'Computer_Organization%20%26%20Architecture/Lec%20Slides/L03-04_Performance_Metrics.pdf' },
+      { n:3,  title:'Hardware–Software Interface', slides:'Computer_Organization%20%26%20Architecture/Lec%20Slides/L05-06_Hardware_Software_Interface.pdf' },
+      { n:4,  title:'MIPS ISA Basics', slides:'Computer_Organization%20%26%20Architecture/Lec%20Slides/L07-08_MIPS_ISA_Basics.pdf' },
+      { n:5,  title:'MIPS ISA — Load, Store and Branches', slides:'Computer_Organization%20%26%20Architecture/Lec%20Slides/L09-10_MIPS_ISA_Load_Store_and_Branches.pdf' },
+      { n:6,  title:'MIPS Machine Language and Encoding', slides:'Computer_Organization%20%26%20Architecture/Lec%20Slides/L11_MIPS_Machine_Language_and_Encoding.pdf' },
+      { n:7,  title:'MIPS Processor Datapath and Control', slides:'Computer_Organization%20%26%20Architecture/Lec%20Slides/L12-14_MIPS_Processor_Datapath_and_Control.pdf' },
+      { n:8,  title:'Pipelined Processor Design', slides:'Computer_Organization%20%26%20Architecture/Lec%20Slides/L15-18_Pipelined_Processor_Design.pdf' },
+      { n:9,  title:'Pipeline Hazards and Control', slides:'Computer_Organization%20%26%20Architecture/Lec%20Slides/L19-23_Pipeline_Hazards_and_Control.pdf' },
+      { n:10, title:'Memory Design and Hierarchy', slides:'Computer_Organization%20%26%20Architecture/Lec%20Slides/L24-26_Memory_Design_and_Hierarchy.pdf' },
+      { n:11, title:'DS Review — Number Systems', slides:'Computer_Organization%20%26%20Architecture/Lec%20Slides/DS_Review_Number_Systems.pdf' },
+      { n:12, title:'DS Review — Boolean Algebra and Logic Gates', slides:'Computer_Organization%20%26%20Architecture/Lec%20Slides/DS_Review_Boolean_Algebra_and_Logic_Gates.pdf' },
+      { n:13, title:'Cache Miss Example Scenarios (Reference)', slides:'Computer_Organization%20%26%20Architecture/Lec%20Slides/Ref_Cache_Miss_Example_Scenarios.pdf' },
+    ]
   }
 };
 
 const ICONS = {
-  slides: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="10" height="10"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>`,
-  notebook: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="10" height="10"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>`,
+  slides:    `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="10" height="10"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>`,
+  notebook:  `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="10" height="10"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>`,
   recording: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="10" height="10"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>`,
-  arrow: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>`,
+  tutorial:  `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="10" height="10"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>`,
+  book:      `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>`,
+  arrow:     `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>`,
 };
 
 function buildCard(lec, course, courseId, query='') {
   const slidesUrl = BASE + lec.slides;
   const hasNb = course.hasNotebook;
+  const hasRec = course.hasRecording;
 
   const titleHtml = query
     ? lec.title.replace(new RegExp(`(${escRe(query)})`, 'gi'), '<mark>$1</mark>')
     : lec.title;
 
-  const numStr = String(lec.n).padStart(2,'0');
+  const numStr = String(lec.n).toString().padStart(2,'0');
 
   const courseLabel = query
     ? `<span style="font-size:10px;padding:1px 7px;border-radius:999px;background:var(--cream2);color:var(--ink3);margin-right:6px;flex-shrink:0">${courseId.toUpperCase()}</span>`
@@ -561,7 +746,9 @@ function buildCard(lec, course, courseId, query='') {
   const nbPill = hasNb
     ? `<span class="lec-link link-notebook"><span>${ICONS.notebook}</span><span>Notebook</span></span>`
     : '';
-  const recPill = `<span class="lec-link link-stub"><span>${ICONS.recording}</span><span>Recording</span></span>`;
+  const recPill = hasRec
+    ? `<span class="lec-link link-stub"><span>${ICONS.recording}</span><span>Recording</span></span>`
+    : '';
 
   return `
     <div class="lecture-card" onclick="window.open('${slidesUrl}','_blank')">
@@ -577,12 +764,48 @@ function buildCard(lec, course, courseId, query='') {
     </div>`;
 }
 
+function buildTutCard(tut, courseId) {
+  const numStr = String(tut.n).padStart(2,'0');
+  return `
+    <div class="lecture-card" onclick="window.open('${tut.url}','_blank')">
+      <div class="lec-num" style="background:#F0ECFF;color:#5B3FA6">${numStr}</div>
+      <div class="lec-title">${tut.title}</div>
+      <div class="lec-links">
+        <a class="lec-link link-tutorial" href="${tut.url}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()"><span>${ICONS.tutorial}</span><span>Tutorial</span></a>
+      </div>
+      <div class="lec-arrow">${ICONS.arrow}</div>
+    </div>`;
+}
+
+function buildRefBooks(courseId) {
+  const books = REFS[courseId];
+  if (!books || books.length === 0) return '';
+  const links = books.map(b =>
+    `<a class="ref-book-link" href="${b.url}" target="_blank" rel="noopener noreferrer">${ICONS.book}<span>${b.label}</span></a>`
+  ).join('');
+  return `<div class="ref-books">${links}</div>`;
+}
+
 function escRe(s) { return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); }
 
 function renderAll() {
   for (const [id, course] of Object.entries(COURSES)) {
     const grid = document.getElementById('grid-' + id);
-    grid.innerHTML = course.lectures.map(l => buildCard(l, course, id)).join('');
+    let html = course.lectures.map(l => buildCard(l, course, id)).join('');
+
+    // Tutorials section (COA only for now)
+    if (TUTORIALS[id] && TUTORIALS[id].length > 0) {
+      html += `<div style="margin-top:18px;margin-bottom:8px;font-size:12px;font-weight:600;color:var(--ink3);letter-spacing:0.06em;text-transform:uppercase;padding-left:2px">Tutorials</div>`;
+      html += TUTORIALS[id].map(t => buildTutCard(t, id)).join('');
+    }
+
+    grid.innerHTML = html;
+
+    // Ref books below the grid
+    const refHtml = buildRefBooks(id);
+    if (refHtml) {
+      grid.insertAdjacentHTML('afterend', refHtml);
+    }
   }
 }
 
